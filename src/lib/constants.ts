@@ -1,5 +1,8 @@
-// Discord Support Server Link - Replace with your actual invite link
-export const SUPPORT_DISCORD_URL = 'https://discord.gg/PASTE_YOUR_DISCORD_INVITE_LINK_HERE'
+// Discord Support Server Link
+export const SUPPORT_DISCORD_URL = 'https://discord.gg/BA3aDFqtXr'
+
+// Discord Bot Invite Link
+export const BOT_INVITE_URL = 'https://discord.com/oauth2/authorize?client_id=1478877109538652371&permissions=8&integration_type=0&scope=bot+applications.commands'
 
 // Discord Application Credentials
 export const DISCORD_CLIENT_ID = '1478877109538652371'

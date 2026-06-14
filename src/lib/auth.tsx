@@ -54,7 +54,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'discord',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`
+        redirectTo: window.location.origin,
+        scopes: 'identify email guilds'
       }
     })
     if (error) throw error

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Settings, Save, Globe, Bell, Terminal, TriangleAlert as AlertTriangle, Trash2, Shield, Headphones } from 'lucide-react'
+import { Settings, Save, Globe, Bell, Terminal, TriangleAlert as AlertTriangle, Trash2, Shield, Headphones, Plus } from 'lucide-react'
 import { useI18n } from '../lib/i18n'
-import { SUPPORT_DISCORD_URL } from '../lib/constants'
+import { SUPPORT_DISCORD_URL, BOT_INVITE_URL } from '../lib/constants'
 
 export default function SettingsPage() {
   const { t, language, setLanguage } = useI18n()
@@ -194,15 +194,26 @@ export default function SettingsPage() {
         <p className="text-gray-400 mb-4">
           Rejoignez notre serveur Discord pour obtenir de l'aide, signaler des bugs ou suggérer des améliorations.
         </p>
-        <a
-          href={SUPPORT_DISCORD_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-accent inline-flex items-center gap-2"
-        >
-          <Headphones className="w-4 h-4" />
-          Rejoindre le Serveur Support
-        </a>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href={SUPPORT_DISCORD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-accent inline-flex items-center gap-2"
+          >
+            <Headphones className="w-4 h-4" />
+            Rejoindre le Serveur Support
+          </a>
+          <a
+            href={BOT_INVITE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary inline-flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Ajouter le Bot
+          </a>
+        </div>
       </div>
     </div>
   )
