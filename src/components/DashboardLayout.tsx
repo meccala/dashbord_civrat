@@ -5,10 +5,11 @@ import {
   Bot, Shield, Zap, Gift, Globe, Lightbulb,
   LogOut, Menu, X, ChevronLeft, Ticket, ScrollText, Lock,
   ShieldAlert, Volume2, BarChart3, Code, Database, Settings, Crown,
-  Link2, UserPlus
+  Link2, UserPlus, Headphones
 } from 'lucide-react'
 import { useAuth } from '../lib/auth'
 import { useI18n } from '../lib/i18n'
+import { SUPPORT_DISCORD_URL } from '../lib/constants'
 
 const navigation = [
   { nameKey: 'nav.welcome', icon: Bot, path: 'welcome' },
@@ -202,6 +203,28 @@ export default function DashboardLayout() {
                 </motion.button>
               )
             })}
+
+            {/* Support Button */}
+            <a
+              href={SUPPORT_DISCORD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-accent-yellow hover:bg-accent-yellow/10 transition-all"
+            >
+              <Headphones className="w-5 h-5 flex-shrink-0" />
+              <AnimatePresence>
+                {sidebarOpen && (
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="whitespace-nowrap"
+                  >
+                    Serveur Support
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </a>
           </nav>
 
           <div className="p-4 border-t border-white/10">
