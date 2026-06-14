@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ScrollText, MessageSquare, Mic, Users, Shield, Server, Save } from 'lucide-react'
+import { useI18n } from '../lib/i18n'
 
 export default function LogsPage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     channel: '',
@@ -14,19 +16,19 @@ export default function LogsPage() {
   })
 
   const logTypes = [
-    { key: 'logMessages', icon: MessageSquare, label: 'Message Events', desc: 'Message edits, deletions, pins' },
-    { key: 'logVoice', icon: Mic, label: 'Voice Events', desc: 'Join, leave, switch channels' },
-    { key: 'logMembers', icon: Users, label: 'Member Events', desc: 'Joins, leaves, bans, unbans' },
-    { key: 'logMod', icon: Shield, label: 'Moderation Events', desc: 'Kicks, bans, mutes, warns' },
-    { key: 'logServer', icon: Server, label: 'Server Events', desc: 'Role, channel, emoji changes' },
+    { key: 'logMessages', icon: MessageSquare, labelKey: 'logs.messageEvents', descKey: 'logs.messageDesc' },
+    { key: 'logVoice', icon: Mic, labelKey: 'logs.voiceEvents', descKey: 'logs.voiceDesc' },
+    { key: 'logMembers', icon: Users, labelKey: 'logs.memberEvents', descKey: 'logs.memberDesc' },
+    { key: 'logMod', icon: Shield, labelKey: 'logs.modEvents', descKey: 'logs.modDesc' },
+    { key: 'logServer', icon: Server, labelKey: 'logs.serverEvents', descKey: 'logs.serverDesc' },
   ]
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Server Logs</h1>
-          <p className="text-gray-400">Track all server events in a dedicated channel.</p>
+          <h1 className="text-3xl font-bold text-white mb-2">{t('logs.title')}</h1>
+          <p className="text-gray-400">{t('logs.subtitle')}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
@@ -34,7 +36,7 @@ export default function LogsPage() {
           className="btn-primary flex items-center gap-2"
         >
           <Save className="w-4 h-4" />
-          Save Changes
+          {t('common.save')}
         </motion.button>
       </div>
 
@@ -45,8 +47,8 @@ export default function LogsPage() {
             <ScrollText className="w-6 h-6 text-neon-green" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white">Enable Logging</h3>
-            <p className="text-sm text-gray-400">Log server events to a channel</p>
+            <h3 className="text-lg font-semibold text-white">{t('logs.enable')}</h3>
+            <p className="text-sm text-gray-400">{t('logs.enableDesc')}</p>
           </div>
           <button
             onClick={() => setConfig({ ...config, enabled: !config.enabled })}
@@ -71,13 +73,13 @@ export default function LogsPage() {
         >
           {/* Log Channel */}
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Log Channel</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('logs.logChannel')}</h3>
             <select
               value={config.channel}
               onChange={(e) => setConfig({ ...config, channel: e.target.value })}
               className="input-field"
             >
-              <option value="">Select a channel</option>
+              <option value="">{t('common.selectChannel')}</option>
               <option value="logs">📋 server-logs</option>
               <option value="audit">🔍 audit-log</option>
               <option value="mod">👮 mod-log</option>
@@ -105,7 +107,7 @@ export default function LogsPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h4 className="font-semibold text-white">{item.label}</h4>
+                        <h4 className="font-semibold text-white">{t(item.labelKey)}</h4>
                         <button
                           className={`w-10 h-6 rounded-full transition-all ${
                             isEnabled ? 'bg-neon-green' : 'bg-white/10'
@@ -118,7 +120,7 @@ export default function LogsPage() {
                           />
                         </button>
                       </div>
-                      <p className="text-sm text-gray-400 mt-1">{item.desc}</p>
+                      <p className="text-sm text-gray-400 mt-1">{t(item.descKey)}</p>
                     </div>
                   </div>
                 </motion.div>

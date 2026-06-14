@@ -1,24 +1,26 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Globe, Save, Check, Languages } from 'lucide-react'
+import { useI18n } from '../lib/i18n'
 
 export default function LanguagesPage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
-    defaultLanguage: 'en',
+    defaultLanguage: 'fr',
     autoTranslate: false,
-    availableLanguages: ['en', 'es', 'fr', 'de', 'ja', 'ko', 'pt', 'ru', 'zh'],
+    availableLanguages: ['fr', 'en', 'es', 'de', 'ja'],
   })
 
   const languages = [
-    { code: 'en', name: 'English', flag: '🇺🇸', progress: 100 },
-    { code: 'es', name: 'Spanish', flag: '🇪🇸', progress: 100 },
-    { code: 'fr', name: 'French', flag: '🇫🇷', progress: 95 },
-    { code: 'de', name: 'German', flag: '🇩🇪', progress: 90 },
-    { code: 'ja', name: 'Japanese', flag: '🇯🇵', progress: 85 },
-    { code: 'ko', name: 'Korean', flag: '🇰🇷', progress: 80 },
-    { code: 'pt', name: 'Portuguese', flag: '🇧🇷', progress: 100 },
-    { code: 'ru', name: 'Russian', flag: '🇷🇺', progress: 75 },
-    { code: 'zh', name: 'Chinese', flag: '🇨🇳', progress: 70 },
+    { code: 'fr', name: 'Français', flag: '🇫🇷', progress: 100 },
+    { code: 'en', name: 'English', flag: '🇬🇧', progress: 100 },
+    { code: 'es', name: 'Español', flag: '🇪🇸', progress: 95 },
+    { code: 'de', name: 'Deutsch', flag: '🇩🇪', progress: 90 },
+    { code: 'ja', name: '日本語', flag: '🇯🇵', progress: 85 },
+    { code: 'ko', name: '한국어', flag: '🇰🇷', progress: 80 },
+    { code: 'pt', name: 'Português', flag: '🇧🇷', progress: 100 },
+    { code: 'ru', name: 'Русский', flag: '🇷🇺', progress: 75 },
+    { code: 'zh', name: '中文', flag: '🇨🇳', progress: 70 },
   ]
 
   const toggleLanguage = (code: string) => {
@@ -41,8 +43,8 @@ export default function LanguagesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Languages</h1>
-          <p className="text-gray-400">Configure language settings and translations.</p>
+          <h1 className="text-3xl font-bold text-white mb-2">{t('languages.title')}</h1>
+          <p className="text-gray-400">{t('languages.subtitle')}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
@@ -50,7 +52,7 @@ export default function LanguagesPage() {
           className="btn-primary flex items-center gap-2"
         >
           <Save className="w-4 h-4" />
-          Save Changes
+          {t('common.save')}
         </motion.button>
       </div>
 
@@ -61,7 +63,7 @@ export default function LanguagesPage() {
             <Globe className="w-6 h-6 text-neon-green" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white mb-2">Default Language</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('languages.default')}</h3>
             <select
               value={config.defaultLanguage}
               onChange={(e) => setConfig({ ...config, defaultLanguage: e.target.value })}
@@ -84,8 +86,8 @@ export default function LanguagesPage() {
             <Languages className="w-6 h-6 text-accent-yellow" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white">Auto Translation</h3>
-            <p className="text-sm text-gray-400">Automatically translate bot messages</p>
+            <h3 className="text-lg font-semibold text-white">{t('languages.autoTranslate')}</h3>
+            <p className="text-sm text-gray-400">{t('languages.autoTranslateDesc')}</p>
           </div>
           <button
             onClick={() => setConfig({ ...config, autoTranslate: !config.autoTranslate })}
@@ -104,9 +106,9 @@ export default function LanguagesPage() {
 
       {/* Available Languages */}
       <div className="glass-card p-6">
-        <h3 className="text-lg font-semibold text-white mb-6">Available Languages</h3>
+        <h3 className="text-lg font-semibold text-white mb-6">{t('languages.available')}</h3>
         <p className="text-sm text-gray-400 mb-6">
-          Select which languages are available for users to choose from.
+          {t('languages.availableDesc')}
         </p>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -132,7 +134,7 @@ export default function LanguagesPage() {
                       <h4 className="font-medium text-white">{lang.name}</h4>
                       {isDefault && (
                         <span className="text-xs px-2 py-0.5 bg-accent-yellow/20 text-accent-yellow rounded-full">
-                          Default
+                          Défaut
                         </span>
                       )}
                     </div>
@@ -144,7 +146,7 @@ export default function LanguagesPage() {
                         className="h-full bg-neon-green rounded-full"
                       />
                     </div>
-                    <p className="text-xs text-gray-400 mt-1">{lang.progress}% translated</p>
+                    <p className="text-xs text-gray-400 mt-1">{lang.progress}% {t('languages.translated')}</p>
                   </div>
                   {isEnabled && (
                     <Check className="w-5 h-5 text-neon-green" />

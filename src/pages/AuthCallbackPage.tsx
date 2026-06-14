@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Loader as Loader2 } from 'lucide-react'
 import { useAuth } from '../lib/auth'
+import { useI18n } from '../lib/i18n'
+import { supabase } from '../lib/supabase'
 
 export default function AuthCallbackPage() {
   const navigate = useNavigate()
   const { session } = useAuth()
+  const { t } = useI18n()
 
   useEffect(() => {
     if (session) {
-      // Create or update user profile
       const createUserProfile = async () => {
         try {
           const { error } = await supabase.from('users').upsert({
@@ -47,11 +49,9 @@ export default function AuthCallbackPage() {
             <Loader2 className="w-8 h-8 text-discord-darker" />
           </motion.div>
         </div>
-        <h1 className="text-2xl font-bold text-white mb-2">Completing Sign In</h1>
-        <p className="text-gray-400">Please wait while we set up your account...</p>
+        <h1 className="text-2xl font-bold text-white mb-2">{t('auth.completing')}</h1>
+        <p className="text-gray-400">{t('auth.wait')}</p>
       </motion.div>
     </div>
   )
 }
-
-import { supabase } from '../lib/supabase'

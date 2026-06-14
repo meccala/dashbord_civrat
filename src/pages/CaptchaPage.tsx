@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Lock, Save, Image, Calculator, MousePointer } from 'lucide-react'
+import { useI18n } from '../lib/i18n'
 
 export default function CaptchaPage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     type: 'image' as 'image' | 'math' | 'button',
@@ -14,17 +16,17 @@ export default function CaptchaPage() {
   })
 
   const captchaTypes = [
-    { id: 'image', icon: Image, label: 'Image Captcha', desc: 'Text-based image captcha' },
-    { id: 'math', icon: Calculator, label: 'Math Captcha', desc: 'Simple math problems' },
-    { id: 'button', icon: MousePointer, label: 'Button Captcha', desc: 'Simple button click' },
+    { id: 'image', icon: Image, labelKey: 'captcha.image', descKey: 'captcha.imageDesc' },
+    { id: 'math', icon: Calculator, labelKey: 'captcha.math', descKey: 'captcha.mathDesc' },
+    { id: 'button', icon: MousePointer, labelKey: 'captcha.button', descKey: 'captcha.buttonDesc' },
   ]
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Captcha Verification</h1>
-          <p className="text-gray-400">Protect your server from bots with captcha verification.</p>
+          <h1 className="text-3xl font-bold text-white mb-2">{t('captcha.title')}</h1>
+          <p className="text-gray-400">{t('captcha.subtitle')}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
@@ -32,7 +34,7 @@ export default function CaptchaPage() {
           className="btn-primary flex items-center gap-2"
         >
           <Save className="w-4 h-4" />
-          Save Changes
+          {t('common.save')}
         </motion.button>
       </div>
 
@@ -43,8 +45,8 @@ export default function CaptchaPage() {
             <Lock className="w-6 h-6 text-neon-green" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white">Enable Captcha</h3>
-            <p className="text-sm text-gray-400">Verify new members with captcha</p>
+            <h3 className="text-lg font-semibold text-white">{t('captcha.enable')}</h3>
+            <p className="text-sm text-gray-400">{t('captcha.enableDesc')}</p>
           </div>
           <button
             onClick={() => setConfig({ ...config, enabled: !config.enabled })}
@@ -69,7 +71,7 @@ export default function CaptchaPage() {
         >
           {/* Captcha Type */}
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-6">Captcha Type</h3>
+            <h3 className="text-lg font-semibold text-white mb-6">{t('captcha.type')}</h3>
             <div className="grid md:grid-cols-3 gap-4">
               {captchaTypes.map((type) => (
                 <motion.div
@@ -85,8 +87,8 @@ export default function CaptchaPage() {
                   <type.icon className={`w-8 h-8 mx-auto mb-3 ${
                     config.type === type.id ? 'text-neon-green' : 'text-gray-400'
                   }`} />
-                  <h4 className="font-semibold text-white mb-1">{type.label}</h4>
-                  <p className="text-sm text-gray-400">{type.desc}</p>
+                  <h4 className="font-semibold text-white mb-1">{t(type.labelKey)}</h4>
+                  <p className="text-sm text-gray-400">{t(type.descKey)}</p>
                 </motion.div>
               ))}
             </div>
@@ -95,46 +97,46 @@ export default function CaptchaPage() {
           {/* Settings */}
           <div className="grid lg:grid-cols-2 gap-6">
             <div className="glass-card p-6">
-              <h3 className="text-lg font-semibold text-white mb-6">Verification Settings</h3>
+              <h3 className="text-lg font-semibold text-white mb-6">{t('captcha.verification')}</h3>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Verified Role
+                    {t('captcha.verifiedRole')}
                   </label>
                   <select
                     value={config.roleId}
                     onChange={(e) => setConfig({ ...config, roleId: e.target.value })}
                     className="input-field"
                   >
-                    <option value="">Select a role</option>
-                    <option value="verified">✅ Verified</option>
-                    <option value="member">👤 Member</option>
+                    <option value="">{t('common.selectRole')}</option>
+                    <option value="verified">✅ Vérifié</option>
+                    <option value="member">👤 Membre</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Verification Channel
+                    {t('captcha.verificationChannel')}
                   </label>
                   <select
                     value={config.channelId}
                     onChange={(e) => setConfig({ ...config, channelId: e.target.value })}
                     className="input-field"
                   >
-                    <option value="">Select a channel</option>
-                    <option value="verify">🔐 verify</option>
-                    <option value="welcome">👋 welcome</option>
+                    <option value="">{t('common.selectChannel')}</option>
+                    <option value="verify">🔐 verification</option>
+                    <option value="welcome">👋 bienvenue</option>
                   </select>
                 </div>
               </div>
             </div>
 
             <div className="glass-card p-6">
-              <h3 className="text-lg font-semibold text-white mb-6">Timeout & Actions</h3>
+              <h3 className="text-lg font-semibold text-white mb-6">Délai & Actions</h3>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Verification Timeout (seconds)
+                    {t('captcha.timeout')}
                   </label>
                   <input
                     type="number"
@@ -148,7 +150,7 @@ export default function CaptchaPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Maximum Attempts
+                    {t('captcha.maxAttempts')}
                   </label>
                   <input
                     type="number"
@@ -162,8 +164,8 @@ export default function CaptchaPage() {
 
                 <div className="flex items-center justify-between pt-4">
                   <div>
-                    <h4 className="font-medium text-white">Kick on Failed</h4>
-                    <p className="text-sm text-gray-400">Kick members who fail captcha</p>
+                    <h4 className="font-medium text-white">{t('captcha.kickOnFail')}</h4>
+                    <p className="text-sm text-gray-400">{t('captcha.kickOnFailDesc')}</p>
                   </div>
                   <button
                     onClick={() => setConfig({ ...config, kickOnFail: !config.kickOnFail })}

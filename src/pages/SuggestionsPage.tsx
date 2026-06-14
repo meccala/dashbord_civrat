@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Lightbulb, Save, ThumbsUp, MessageSquare, Check, X } from 'lucide-react'
+import { useI18n } from '../lib/i18n'
 
 export default function SuggestionsPage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     channelId: '',
@@ -15,17 +17,17 @@ export default function SuggestionsPage() {
   })
 
   const [activeSuggestions] = useState([
-    { id: '1', title: 'Add music bot', votes: 15, status: 'pending' },
-    { id: '2', title: 'Create gaming channel', votes: 42, status: 'approved' },
-    { id: '3', title: 'Add self roles', votes: 8, status: 'pending' },
+    { id: '1', title: 'Ajouter un bot musical', votes: 15, status: 'pending' },
+    { id: '2', title: 'Créer un salon gaming', votes: 42, status: 'approved' },
+    { id: '3', title: 'Ajouter des rôles automatiques', votes: 8, status: 'pending' },
   ])
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Suggestions</h1>
-          <p className="text-gray-400">Let members submit and vote on server suggestions.</p>
+          <h1 className="text-3xl font-bold text-white mb-2">{t('suggestions.title')}</h1>
+          <p className="text-gray-400">{t('suggestions.subtitle')}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
@@ -33,7 +35,7 @@ export default function SuggestionsPage() {
           className="btn-primary flex items-center gap-2"
         >
           <Save className="w-4 h-4" />
-          Save Changes
+          {t('common.save')}
         </motion.button>
       </div>
 
@@ -44,8 +46,8 @@ export default function SuggestionsPage() {
             <Lightbulb className="w-6 h-6 text-neon-green" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white">Enable Suggestions</h3>
-            <p className="text-sm text-gray-400">Allow members to submit suggestions</p>
+            <h3 className="text-lg font-semibold text-white">{t('suggestions.enable')}</h3>
+            <p className="text-sm text-gray-400">{t('suggestions.enableDesc')}</p>
           </div>
           <button
             onClick={() => setConfig({ ...config, enabled: !config.enabled })}
@@ -73,57 +75,57 @@ export default function SuggestionsPage() {
             <div className="glass-card p-6">
               <div className="flex items-center gap-3 mb-4">
                 <MessageSquare className="w-5 h-5 text-neon-green" />
-                <h3 className="text-lg font-semibold text-white">Suggestion Channel</h3>
+                <h3 className="text-lg font-semibold text-white">{t('suggestions.channel')}</h3>
               </div>
               <select
                 value={config.channelId}
                 onChange={(e) => setConfig({ ...config, channelId: e.target.value })}
                 className="input-field"
               >
-                <option value="">Select channel</option>
+                <option value="">{t('common.selectChannel')}</option>
                 <option value="suggestions">💡 suggestions</option>
-                <option value="ideas">💭 ideas</option>
+                <option value="ideas">💭 idees</option>
               </select>
             </div>
 
             <div className="glass-card p-6">
               <div className="flex items-center gap-3 mb-4">
                 <Check className="w-5 h-5 text-neon-green" />
-                <h3 className="text-lg font-semibold text-white">Approved Channel</h3>
+                <h3 className="text-lg font-semibold text-white">{t('suggestions.approvedChannel')}</h3>
               </div>
               <select
                 value={config.approvedChannelId}
                 onChange={(e) => setConfig({ ...config, approvedChannelId: e.target.value })}
                 className="input-field"
               >
-                <option value="">Select channel</option>
-                <option value="approved-suggestions">✅ approved</option>
+                <option value="">{t('common.selectChannel')}</option>
+                <option value="approved-suggestions">✅ approuvees</option>
               </select>
             </div>
 
             <div className="glass-card p-6">
               <div className="flex items-center gap-3 mb-4">
                 <X className="w-5 h-5 text-red-400" />
-                <h3 className="text-lg font-semibold text-white">Denied Channel</h3>
+                <h3 className="text-lg font-semibold text-white">{t('suggestions.deniedChannel')}</h3>
               </div>
               <select
                 value={config.deniedChannelId}
                 onChange={(e) => setConfig({ ...config, deniedChannelId: e.target.value })}
                 className="input-field"
               >
-                <option value="">Select channel</option>
-                <option value="denied-suggestions">❌ denied</option>
+                <option value="">{t('common.selectChannel')}</option>
+                <option value="denied-suggestions">❌ refusees</option>
               </select>
             </div>
           </div>
 
           {/* Emoji Settings */}
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-6">Vote Emojis</h3>
+            <h3 className="text-lg font-semibold text-white mb-6">{t('suggestions.emojis')}</h3>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Upvote Emoji
+                  {t('suggestions.upvote')}
                 </label>
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center text-2xl">
@@ -141,7 +143,7 @@ export default function SuggestionsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Downvote Emoji
+                  {t('suggestions.downvote')}
                 </label>
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center text-2xl">
@@ -163,9 +165,9 @@ export default function SuggestionsPage() {
           <div className="glass-card p-6">
             <div className="flex items-center gap-4 mb-6">
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-white">Auto Approve</h3>
+                <h3 className="text-lg font-semibold text-white">{t('suggestions.autoApprove')}</h3>
                 <p className="text-sm text-gray-400">
-                  Automatically approve suggestions that reach the vote threshold
+                  {t('suggestions.autoApproveDesc')}
                 </p>
               </div>
               <button
@@ -189,7 +191,7 @@ export default function SuggestionsPage() {
                 className="pt-4 border-t border-white/10"
               >
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Vote Threshold
+                  {t('suggestions.voteThreshold')}
                 </label>
                 <input
                   type="number"
@@ -205,7 +207,7 @@ export default function SuggestionsPage() {
 
           {/* Recent Suggestions */}
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-6">Recent Suggestions</h3>
+            <h3 className="text-lg font-semibold text-white mb-6">{t('suggestions.recent')}</h3>
             <div className="space-y-3">
               {activeSuggestions.map((suggestion) => (
                 <div
@@ -227,7 +229,7 @@ export default function SuggestionsPage() {
                           : 'bg-white/10 text-gray-400'
                       }`}
                     >
-                      {suggestion.status}
+                      {suggestion.status === 'approved' ? t('suggestions.approved') : t('suggestions.pending')}
                     </span>
                   </div>
                 </div>

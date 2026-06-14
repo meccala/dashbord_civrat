@@ -1,21 +1,23 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Ticket, Save, Users, MessageSquare } from 'lucide-react'
+import { useI18n } from '../lib/i18n'
 
 export default function TicketsPage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     category: '',
     maxTickets: 3,
-    creationMessage: 'Ticket created! Support will be with you shortly.',
-    closeMessage: 'This ticket has been closed.',
+    creationMessage: 'Ticket créé ! Le support vous répondra sous peu.',
+    closeMessage: 'Ce ticket a été fermé.',
     supportRoles: [] as string[],
     logChannel: '',
   })
 
   const availableRoles = [
     { id: '1', name: 'Admin', color: '#ff0000' },
-    { id: '2', name: 'Moderator', color: '#00ff00' },
+    { id: '2', name: 'Modérateur', color: '#00ff00' },
     { id: '3', name: 'Support', color: '#0000ff' },
     { id: '4', name: 'Helper', color: '#ffff00' },
   ]
@@ -33,8 +35,8 @@ export default function TicketsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Ticket System</h1>
-          <p className="text-gray-400">Configure support tickets for your server.</p>
+          <h1 className="text-3xl font-bold text-white mb-2">{t('tickets.title')}</h1>
+          <p className="text-gray-400">{t('tickets.subtitle')}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
@@ -42,7 +44,7 @@ export default function TicketsPage() {
           className="btn-primary flex items-center gap-2"
         >
           <Save className="w-4 h-4" />
-          Save Changes
+          {t('common.save')}
         </motion.button>
       </div>
 
@@ -53,8 +55,8 @@ export default function TicketsPage() {
             <Ticket className="w-6 h-6 text-neon-green" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white">Enable Ticket System</h3>
-            <p className="text-sm text-gray-400">Allow members to create support tickets</p>
+            <h3 className="text-lg font-semibold text-white">{t('tickets.enable')}</h3>
+            <p className="text-sm text-gray-400">{t('tickets.enableDesc')}</p>
           </div>
           <button
             onClick={() => setConfig({ ...config, enabled: !config.enabled })}
@@ -79,26 +81,26 @@ export default function TicketsPage() {
         >
           {/* Basic Settings */}
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-6">Basic Settings</h3>
+            <h3 className="text-lg font-semibold text-white mb-6">{t('tickets.basicSettings')}</h3>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Ticket Category
+                  {t('tickets.category')}
                 </label>
                 <select
                   value={config.category}
                   onChange={(e) => setConfig({ ...config, category: e.target.value })}
                   className="input-field"
                 >
-                  <option value="">Select a category</option>
+                  <option value="">{t('common.selectChannel')}</option>
                   <option value="support">🎫 Tickets</option>
-                  <option value="help">❓ Help</option>
+                  <option value="help">❓ Aide</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Max Tickets Per User
+                  {t('tickets.maxTickets')}
                 </label>
                 <input
                   type="number"
@@ -112,14 +114,14 @@ export default function TicketsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Log Channel
+                  {t('tickets.logChannel')}
                 </label>
                 <select
                   value={config.logChannel}
                   onChange={(e) => setConfig({ ...config, logChannel: e.target.value })}
                   className="input-field"
                 >
-                  <option value="">Select a channel</option>
+                  <option value="">{t('common.selectChannel')}</option>
                   <option value="ticket-logs">📋 ticket-logs</option>
                   <option value="mods">👮 mod-log</option>
                 </select>
@@ -131,7 +133,7 @@ export default function TicketsPage() {
           <div className="glass-card p-6">
             <div className="flex items-center gap-2 mb-6">
               <Users className="w-5 h-5 text-neon-green" />
-              <h3 className="text-lg font-semibold text-white">Support Roles</h3>
+              <h3 className="text-lg font-semibold text-white">{t('tickets.supportRoles')}</h3>
             </div>
             <div className="space-y-2">
               {availableRoles.map((role) => (
@@ -150,7 +152,7 @@ export default function TicketsPage() {
                   />
                   <span className="flex-1 text-left text-white">{role.name}</span>
                   {config.supportRoles.includes(role.id) && (
-                    <span className="text-xs text-neon-green font-medium">Selected</span>
+                    <span className="text-xs text-neon-green font-medium">Sélectionné</span>
                   )}
                 </button>
               ))}
@@ -161,12 +163,12 @@ export default function TicketsPage() {
           <div className="glass-card p-6 lg:col-span-2">
             <div className="flex items-center gap-2 mb-6">
               <MessageSquare className="w-5 h-5 text-neon-green" />
-              <h3 className="text-lg font-semibold text-white">Ticket Messages</h3>
+              <h3 className="text-lg font-semibold text-white">{t('tickets.messages')}</h3>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Creation Message
+                  {t('tickets.creationMessage')}
                 </label>
                 <textarea
                   value={config.creationMessage}
@@ -177,7 +179,7 @@ export default function TicketsPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Close Message
+                  {t('tickets.closeMessage')}
                 </label>
                 <textarea
                   value={config.closeMessage}

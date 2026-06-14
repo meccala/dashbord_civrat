@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { AuthProvider, useAuth } from './lib/auth'
+import { I18nProvider } from './lib/i18n'
 import LandingPage from './components/LandingPage'
 import DashboardLayout from './components/DashboardLayout'
 import GuildSelector from './components/GuildSelector'
@@ -14,6 +15,15 @@ import GiveawaysPage from './pages/GiveawaysPage'
 import LanguagesPage from './pages/LanguagesPage'
 import SuggestionsPage from './pages/SuggestionsPage'
 import AuthCallbackPage from './pages/AuthCallbackPage'
+import InvitesPage from './pages/InvitesPage'
+import SecurityPage from './pages/SecurityPage'
+import AntiNukePage from './pages/AntiNukePage'
+import TempVoicePage from './pages/TempVoicePage'
+import AnalyticsPage from './pages/AnalyticsPage'
+import EmbedBuilderPage from './pages/EmbedBuilderPage'
+import BackupsPage from './pages/BackupsPage'
+import SettingsPage from './pages/SettingsPage'
+import PremiumPage from './pages/PremiumPage'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { session, loading } = useAuth()
@@ -69,6 +79,15 @@ function AppRoutes() {
           <Route path="giveaways" element={<GiveawaysPage />} />
           <Route path="languages" element={<LanguagesPage />} />
           <Route path="suggestions" element={<SuggestionsPage />} />
+          <Route path="invites" element={<InvitesPage />} />
+          <Route path="security" element={<SecurityPage />} />
+          <Route path="anti-nuke" element={<AntiNukePage />} />
+          <Route path="temp-voice" element={<TempVoicePage />} />
+          <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="embed-builder" element={<EmbedBuilderPage />} />
+          <Route path="backups" element={<BackupsPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="premium" element={<PremiumPage />} />
           <Route index element={<Navigate to="welcome" replace />} />
         </Route>
       </Routes>
@@ -79,9 +98,11 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
+      <I18nProvider>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
+      </I18nProvider>
     </BrowserRouter>
   )
 }

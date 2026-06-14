@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Shield, Save, Link, MessageCircle, AtSign, TriangleAlert as AlertTriangle, Type } from 'lucide-react'
+import { useI18n } from '../lib/i18n'
 
 export default function AutoModPage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     logChannel: '',
@@ -19,20 +21,20 @@ export default function AutoModPage() {
   })
 
   const filters = [
-    { key: 'inviteLinks', icon: Link, label: 'Invite Links', desc: 'Block Discord invite links' },
-    { key: 'spam', icon: MessageCircle, label: 'Spam Protection', desc: 'Prevent message spam' },
-    { key: 'massMention', icon: AtSign, label: 'Mass Mention', desc: 'Block mass mentioning' },
-    { key: 'badWords', icon: AlertTriangle, label: 'Bad Words', desc: 'Filter inappropriate language' },
-    { key: 'caps', icon: Type, label: 'Excessive Caps', desc: 'Block messages with too many caps' },
-    { key: 'links', icon: Link, label: 'All Links', desc: 'Block all external links' },
+    { key: 'inviteLinks', icon: Link, label: 'Liens d\'invitation', desc: 'Bloquer les invitations Discord' },
+    { key: 'spam', icon: MessageCircle, label: 'Protection Spam', desc: 'Empêcher le spam de messages' },
+    { key: 'massMention', icon: AtSign, label: 'Mentions de masse', desc: 'Bloquer les mentions multiples' },
+    { key: 'badWords', icon: AlertTriangle, label: 'Mots interdits', desc: 'Filtrer le langage inapproprié' },
+    { key: 'caps', icon: Type, label: 'Majuscules excessives', desc: 'Bloquer les messages en majuscules' },
+    { key: 'links', icon: Link, label: 'Tous les liens', desc: 'Bloquer tous les liens externes' },
   ]
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Auto Moderation</h1>
-          <p className="text-gray-400">Automatically moderate your server.</p>
+          <h1 className="text-3xl font-bold text-white mb-2">{t('autoMod.title')}</h1>
+          <p className="text-gray-400">{t('autoMod.subtitle')}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
@@ -40,7 +42,7 @@ export default function AutoModPage() {
           className="btn-primary flex items-center gap-2"
         >
           <Save className="w-4 h-4" />
-          Save Changes
+          {t('common.save')}
         </motion.button>
       </div>
 
@@ -51,8 +53,8 @@ export default function AutoModPage() {
             <Shield className="w-6 h-6 text-neon-green" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white">Enable Auto Moderation</h3>
-            <p className="text-sm text-gray-400">Automatically filter and moderate messages</p>
+            <h3 className="text-lg font-semibold text-white">{t('autoMod.enable')}</h3>
+            <p className="text-sm text-gray-400">{t('autoMod.enableDesc')}</p>
           </div>
           <button
             onClick={() => setConfig({ ...config, enabled: !config.enabled })}
@@ -78,34 +80,34 @@ export default function AutoModPage() {
           {/* Basic Settings */}
           <div className="grid lg:grid-cols-2 gap-6">
             <div className="glass-card p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">Log Channel</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">{t('logs.logChannel')}</h3>
               <select
                 value={config.logChannel}
                 onChange={(e) => setConfig({ ...config, logChannel: e.target.value })}
                 className="input-field"
               >
-                <option value="">Select a channel</option>
+                <option value="">{t('common.selectChannel')}</option>
                 <option value="mod-log">👮 mod-log</option>
                 <option value="automod">🤖 auto-mod</option>
               </select>
             </div>
 
             <div className="glass-card p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">Mute Role</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">Rôle Muet</h3>
               <select
                 value={config.muteRole}
                 onChange={(e) => setConfig({ ...config, muteRole: e.target.value })}
                 className="input-field"
               >
-                <option value="">Select a role</option>
-                <option value="muted">🔇 Muted</option>
+                <option value="">{t('common.selectRole')}</option>
+                <option value="muted">🔇 Muet</option>
               </select>
             </div>
           </div>
 
           {/* Filters */}
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-6">Auto Moderation Filters</h3>
+            <h3 className="text-lg font-semibold text-white mb-6">{t('autoMod.filters')}</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filters.map((filter) => {
                 const isEnabled = config[filter.key as keyof typeof config] as boolean
@@ -132,11 +134,11 @@ export default function AutoModPage() {
 
           {/* Thresholds */}
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-6">Thresholds</h3>
+            <h3 className="text-lg font-semibold text-white mb-6">{t('autoMod.thresholds')}</h3>
             <div className="grid md:grid-cols-3 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Spam Threshold (messages)
+                  {t('autoMod.spamThreshold')}
                 </label>
                 <input
                   type="number"
@@ -149,7 +151,7 @@ export default function AutoModPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Mention Threshold
+                  {t('autoMod.mentionThreshold')}
                 </label>
                 <input
                   type="number"
@@ -162,7 +164,7 @@ export default function AutoModPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Caps Threshold (%)
+                  {t('autoMod.capsThreshold')}
                 </label>
                 <input
                   type="number"

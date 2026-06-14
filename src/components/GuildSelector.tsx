@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { Bot, Search, ArrowRight } from 'lucide-react'
+import { Bot, Search, ArrowRight, Shield } from 'lucide-react'
+import { useI18n } from '../lib/i18n'
 
 interface GuildData {
   id: string
@@ -9,20 +10,23 @@ interface GuildData {
   icon: string | null
   member_count: number
   has_bot: boolean
+  is_owner: boolean
+  permissions: string
 }
 
 const mockGuilds: GuildData[] = [
-  { id: '1', name: 'Gaming Community', icon: null, member_count: 15420, has_bot: true },
-  { id: '2', name: 'Crypto Traders', icon: null, member_count: 8500, has_bot: true },
-  { id: '3', name: 'Music Lovers', icon: null, member_count: 3200, has_bot: false },
-  { id: '4', name: 'Developer Hub', icon: null, member_count: 12000, has_bot: true },
-  { id: '5', name: 'Art Gallery', icon: null, member_count: 750, has_bot: false },
+  { id: '1', name: 'Gaming Community FR', icon: null, member_count: 15420, has_bot: true, is_owner: true, permissions: 'Administrator' },
+  { id: '2', name: 'Crypto Traders', icon: null, member_count: 8500, has_bot: true, is_owner: false, permissions: 'Manage Server' },
+  { id: '3', name: 'Music Lovers', icon: null, member_count: 3200, has_bot: false, is_owner: false, permissions: 'Administrator' },
+  { id: '4', name: 'Developer Hub', icon: null, member_count: 12000, has_bot: true, is_owner: true, permissions: 'Administrator' },
+  { id: '5', name: 'Art Gallery', icon: null, member_count: 750, has_bot: false, is_owner: false, permissions: 'Manage Server' },
 ]
 
 export default function GuildSelector() {
   const [guilds] = useState<GuildData[]>(mockGuilds)
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
+  const { t } = useI18n()
 
   const filteredGuilds = guilds.filter(g =>
     g.name.toLowerCase().includes(search.toLowerCase())
@@ -41,11 +45,11 @@ export default function GuildSelector() {
       >
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">
-            <span className="text-white">Select a </span>
-            <span className="neon-text">Server</span>
+            <span className="text-white">{t('guild.title').split(' ')[0]} </span>
+            <span className="neon-text">{t('guild.title').split(' ').slice(1).join(' ')}</span>
           </h1>
           <p className="text-gray-400 text-lg">
-            Choose a server to manage your CIVRAT settings.
+            {t('guild.subtitle')}
           </p>
         </div>
 
@@ -56,7 +60,7 @@ export default function GuildSelector() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search servers..."
+            placeholder={t('guild.search')}
             className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-neon-green focus:ring-2 focus:ring-neon-green/20 transition-all"
           />
         </div>
@@ -73,7 +77,7 @@ export default function GuildSelector() {
               className="glass-card-hover p-6 cursor-pointer group"
             >
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-neon-green/20 to-accent-yellow/20 flex items-center justify-center text-2xl font-bold text-white">
+                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-neon-green/20 to-accent-yellow/20 flex items-center justify-center text-2xl font-bold text-white relative">
                   {guild.icon ? (
                     <img
                       src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`}
@@ -83,6 +87,11 @@ export default function GuildSelector() {
                   ) : (
                     guild.name.charAt(0).toUpperCase()
                   )}
+                  {guild.is_owner && (
+                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-accent-yellow rounded-full flex items-center justify-center">
+                      <Shield className="w-3 h-3 text-discord-darker" />
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex-1 min-w-0">
@@ -91,12 +100,12 @@ export default function GuildSelector() {
                     {guild.has_bot && (
                       <div className="flex items-center gap-1 px-2 py-0.5 bg-neon-green/10 rounded-full">
                         <Bot className="w-3 h-3 text-neon-green" />
-                        <span className="text-xs text-neon-green font-medium">Added</span>
+                        <span className="text-xs text-neon-green font-medium">{t('guild.added')}</span>
                       </div>
                     )}
                   </div>
                   <p className="text-sm text-gray-400">
-                    {guild.member_count.toLocaleString()} members
+                    {guild.member_count.toLocaleString()} {t('guild.members')} • {guild.permissions}
                   </p>
                 </div>
 
@@ -108,9 +117,30 @@ export default function GuildSelector() {
 
         {filteredGuilds.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-400">No servers found matching "{search}"</p>
+            <p className="text-gray-400">{t('guild.noResults')} "{search}"</p>
           </div>
         )}
+
+        {/* Info Box */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-12 glass-card p-6 border-neon-green/20"
+        >
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-lg bg-neon-green/10 flex items-center justify-center flex-shrink-0">
+              <Shield className="w-5 h-5 text-neon-green" />
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-1">Serveurs administrateurs uniquement</h4>
+              <p className="text-sm text-gray-400">
+                Seuls les serveurs où vous avez les permissions "Administrateur" ou "Gérer le serveur" sont affichés.
+                Si un serveur manque, vérifiez vos permissions sur Discord.
+              </p>
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
     </div>
   )

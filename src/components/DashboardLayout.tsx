@@ -3,24 +3,37 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   Bot, Shield, Zap, Gift, Globe, Lightbulb,
-  LogOut, Menu, X, ChevronLeft, Ticket, ScrollText, Lock
+  LogOut, Menu, X, ChevronLeft, Ticket, ScrollText, Lock,
+  ShieldAlert, Volume2, BarChart3, Code, Database, Settings, Crown,
+  Link2, UserPlus
 } from 'lucide-react'
 import { useAuth } from '../lib/auth'
+import { useI18n } from '../lib/i18n'
 
 const navigation = [
-  { name: 'Welcome & Goodbye', icon: Bot, path: 'welcome' },
-  { name: 'Tickets', icon: Ticket, path: 'tickets' },
-  { name: 'Logs', icon: ScrollText, path: 'logs' },
-  { name: 'Auto Moderation', icon: Shield, path: 'auto-mod' },
-  { name: 'Captcha', icon: Lock, path: 'captcha' },
-  { name: 'XP & Levels', icon: Zap, path: 'xp' },
-  { name: 'Giveaways', icon: Gift, path: 'giveaways' },
-  { name: 'Languages', icon: Globe, path: 'languages' },
-  { name: 'Suggestions', icon: Lightbulb, path: 'suggestions' },
+  { nameKey: 'nav.welcome', icon: Bot, path: 'welcome' },
+  { nameKey: 'nav.tickets', icon: Ticket, path: 'tickets' },
+  { nameKey: 'nav.logs', icon: ScrollText, path: 'logs' },
+  { nameKey: 'nav.autoMod', icon: Shield, path: 'auto-mod' },
+  { nameKey: 'nav.captcha', icon: Lock, path: 'captcha' },
+  { nameKey: 'nav.xp', icon: Zap, path: 'xp' },
+  { nameKey: 'nav.giveaways', icon: Gift, path: 'giveaways' },
+  { nameKey: 'nav.suggestions', icon: Lightbulb, path: 'suggestions' },
+  { nameKey: 'nav.languages', icon: Globe, path: 'languages' },
+  { nameKey: 'nav.invites', icon: Link2, path: 'invites' },
+  { nameKey: 'nav.security', icon: ShieldAlert, path: 'security' },
+  { nameKey: 'nav.antiNuke', icon: UserPlus, path: 'anti-nuke' },
+  { nameKey: 'nav.tempVoice', icon: Volume2, path: 'temp-voice' },
+  { nameKey: 'nav.analytics', icon: BarChart3, path: 'analytics' },
+  { nameKey: 'nav.embedBuilder', icon: Code, path: 'embed-builder' },
+  { nameKey: 'nav.backups', icon: Database, path: 'backups' },
+  { nameKey: 'nav.settings', icon: Settings, path: 'settings' },
+  { nameKey: 'nav.premium', icon: Crown, path: 'premium' },
 ]
 
 export default function DashboardLayout() {
   const { user, signOut } = useAuth()
+  const { t } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -74,7 +87,7 @@ export default function DashboardLayout() {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25 }}
-              className="lg:hidden fixed left-0 top-0 bottom-0 w-72 bg-discord-dark z-50 p-4"
+              className="lg:hidden fixed left-0 top-0 bottom-0 w-80 bg-discord-dark z-50 p-4 overflow-y-auto"
             >
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-2">
@@ -104,7 +117,7 @@ export default function DashboardLayout() {
                       }`}
                     >
                       <item.icon className="w-5 h-5" />
-                      {item.name}
+                      {t(item.nameKey)}
                     </button>
                   )
                 })}
@@ -115,7 +128,7 @@ export default function DashboardLayout() {
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-400 hover:bg-red-500/10 transition-all"
                 >
                   <LogOut className="w-5 h-5" />
-                  Sign Out
+                  {t('nav.signOut')}
                 </button>
               </div>
             </motion.div>
@@ -182,7 +195,7 @@ export default function DashboardLayout() {
                         exit={{ opacity: 0 }}
                         className="whitespace-nowrap"
                       >
-                        {item.name}
+                        {t(item.nameKey)}
                       </motion.span>
                     )}
                   </AnimatePresence>
@@ -209,7 +222,7 @@ export default function DashboardLayout() {
                   />
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-white truncate">{user?.discord_username}</div>
-                    <div className="text-sm text-gray-400 truncate">Administrator</div>
+                    <div className="text-sm text-gray-400 truncate">{t('nav.administrator')}</div>
                   </div>
                   <button
                     onClick={handleSignOut}

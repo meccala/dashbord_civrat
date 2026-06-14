@@ -1,16 +1,18 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Bot, UserPlus, UserMinus, Save, RotateCcw, Eye } from 'lucide-react'
+import { useI18n } from '../lib/i18n'
 
 export default function WelcomePage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     welcomeChannel: '',
     goodbyeChannel: '',
-    welcomeMessage: 'Welcome to the server, {user}!',
-    goodbyeMessage: '{user} has left the server.',
+    welcomeMessage: 'Bienvenue sur le serveur, {user} !',
+    goodbyeMessage: '{user} a quitté le serveur.',
     dmWelcome: false,
-    dmMessage: 'Welcome to our Discord server!',
+    dmMessage: 'Bienvenue sur notre serveur Discord !',
   })
 
   const handleSave = () => {
@@ -21,8 +23,8 @@ export default function WelcomePage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome & Goodbye</h1>
-          <p className="text-gray-400">Configure member join and leave messages.</p>
+          <h1 className="text-3xl font-bold text-white mb-2">{t('welcome.title')}</h1>
+          <p className="text-gray-400">{t('welcome.subtitle')}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
@@ -31,7 +33,7 @@ export default function WelcomePage() {
           className="btn-primary flex items-center gap-2"
         >
           <Save className="w-4 h-4" />
-          Save Changes
+          {t('common.save')}
         </motion.button>
       </div>
 
@@ -42,8 +44,8 @@ export default function WelcomePage() {
             <Bot className="w-6 h-6 text-neon-green" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white">Enable Welcome System</h3>
-            <p className="text-sm text-gray-400">Automatically greet new members</p>
+            <h3 className="text-lg font-semibold text-white">{t('welcome.enableTitle')}</h3>
+            <p className="text-sm text-gray-400">{t('welcome.enableDesc')}</p>
           </div>
           <button
             onClick={() => setConfig({ ...config, enabled: !config.enabled })}
@@ -65,29 +67,29 @@ export default function WelcomePage() {
         <div className="glass-card p-6">
           <div className="flex items-center gap-3 mb-6">
             <UserPlus className="w-5 h-5 text-neon-green" />
-            <h3 className="text-lg font-semibold text-white">Welcome Message</h3>
+            <h3 className="text-lg font-semibold text-white">{t('welcome.welcomeMessage')}</h3>
           </div>
 
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Welcome Channel
+                {t('welcome.welcomeChannel')}
               </label>
               <select
                 value={config.welcomeChannel}
                 onChange={(e) => setConfig({ ...config, welcomeChannel: e.target.value })}
                 className="input-field"
               >
-                <option value="">Select a channel</option>
-                <option value="general">📢 welcomes</option>
+                <option value="">{t('common.selectChannel')}</option>
+                <option value="welcome">👋 bienvenue</option>
                 <option value="general">💬 general</option>
-                <option value="rules">📜 rules</option>
+                <option value="rules">📜 regles</option>
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Welcome Message
+                {t('welcome.welcomeMessage')}
               </label>
               <textarea
                 value={config.welcomeMessage}
@@ -96,13 +98,13 @@ export default function WelcomePage() {
                 className="input-field resize-none"
               />
               <p className="text-xs text-gray-500 mt-2">
-                Variables: {'{user}'}, {'{server}'}, {'{member_count}'}
+                {t('welcome.variables')}
               </p>
             </div>
 
             <button className="btn-secondary flex items-center gap-2 text-sm">
               <Eye className="w-4 h-4" />
-              Preview
+              {t('common.preview')}
             </button>
           </div>
         </div>
@@ -110,28 +112,28 @@ export default function WelcomePage() {
         <div className="glass-card p-6">
           <div className="flex items-center gap-3 mb-6">
             <UserMinus className="w-5 h-5 text-red-400" />
-            <h3 className="text-lg font-semibold text-white">Goodbye Message</h3>
+            <h3 className="text-lg font-semibold text-white">{t('welcome.goodbyeMessage')}</h3>
           </div>
 
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Goodbye Channel
+                {t('welcome.goodbyeChannel')}
               </label>
               <select
                 value={config.goodbyeChannel}
                 onChange={(e) => setConfig({ ...config, goodbyeChannel: e.target.value })}
                 className="input-field"
               >
-                <option value="">Select a channel</option>
-                <option value="general">📢 leaves</option>
+                <option value="">{t('common.selectChannel')}</option>
+                <option value="leaves">👋 departs</option>
                 <option value="general">💬 general</option>
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Goodbye Message
+                {t('welcome.goodbyeMessage')}
               </label>
               <textarea
                 value={config.goodbyeMessage}
@@ -143,7 +145,7 @@ export default function WelcomePage() {
 
             <button className="btn-secondary flex items-center gap-2 text-sm">
               <Eye className="w-4 h-4" />
-              Preview
+              {t('common.preview')}
             </button>
           </div>
         </div>
@@ -153,8 +155,8 @@ export default function WelcomePage() {
       <div className="glass-card p-6">
         <div className="flex items-center gap-4">
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white mb-1">DM Welcome</h3>
-            <p className="text-sm text-gray-400">Send a direct message to new members</p>
+            <h3 className="text-lg font-semibold text-white mb-1">{t('welcome.dmWelcome')}</h3>
+            <p className="text-sm text-gray-400">{t('welcome.dmDesc')}</p>
           </div>
           <button
             onClick={() => setConfig({ ...config, dmWelcome: !config.dmWelcome })}
@@ -178,7 +180,7 @@ export default function WelcomePage() {
           >
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                DM Message
+                {t('welcome.dmMessage')}
               </label>
               <textarea
                 value={config.dmMessage}
@@ -195,7 +197,7 @@ export default function WelcomePage() {
       <div className="flex justify-end gap-4">
         <button className="btn-secondary flex items-center gap-2">
           <RotateCcw className="w-4 h-4" />
-          Reset to Default
+          {t('common.reset')}
         </button>
       </div>
     </div>
