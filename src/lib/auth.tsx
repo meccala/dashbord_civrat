@@ -18,6 +18,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       if (session?.user) {
@@ -41,6 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   async function fetchUserProfile(userId: string) {
+    if (!supabase) return
     const { data, error } = await supabase
       .from('users')
       .select('*')
@@ -53,6 +59,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signInWithDiscord() {
+    if (!supabase) {
+      throw new Error('Supabase is not configured. Please check your environment variables.')
+    }
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'discord',
       options: {
@@ -63,6 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signOut() {
+    if (!supabase) return
     const { error } = await supabase.auth.signOut()
     if (error) throw error
     setUser(null)

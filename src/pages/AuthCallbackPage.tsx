@@ -15,6 +15,13 @@ export default function AuthCallbackPage() {
 
   useEffect(() => {
     const handleCallback = async () => {
+      if (!supabase) {
+        setError(t('auth.error'))
+        setTimeout(() => navigate('/'), 3000)
+        setLoading(false)
+        return
+      }
+
       try {
         const { data: { session: newSession }, error: authError } = await supabase.auth.getSession()
 
