@@ -48,6 +48,13 @@ const translations: Translations = {
   'guild.noResults': { fr: 'Aucun serveur trouvé pour', en: 'No servers found for' },
   'guild.adminOnly': { fr: 'Serveurs administrateurs uniquement', en: 'Admin servers only' },
   'guild.adminOnlyDesc': { fr: 'Seuls les serveurs où vous avez les permissions "Administrateur" ou "Gérer le serveur" sont affichés. Si un serveur manque, vérifiez vos permissions sur Discord.', en: 'Only servers where you have "Administrator" or "Manage Server" permissions are shown. If a server is missing, check your Discord permissions.' },
+  'guild.loading': { fr: 'Chargement des serveurs...', en: 'Loading servers...' },
+  'guild.loadingDesc': { fr: 'Récupération de vos serveurs Discord...', en: 'Fetching your Discord servers...' },
+  'guild.fetchError': { fr: 'Impossible de charger vos serveurs. Veuillez vous reconnecter.', en: 'Could not load your servers. Please reconnect.' },
+  'common.savedSuccess': { fr: 'Configuration enregistrée !', en: 'Configuration saved!' },
+  'common.saveError': { fr: 'Erreur lors de l\'enregistrement', en: 'Error saving configuration' },
+  'common.loadError': { fr: 'Erreur lors du chargement', en: 'Error loading configuration' },
+  'common.saving': { fr: 'Enregistrement...', en: 'Saving...' },
 
   // Dashboard Navigation
   'nav.welcome': { fr: 'Bienvenue & Départ', en: 'Welcome & Goodbye' },
@@ -432,6 +439,11 @@ const translations: Translations = {
   'embed.preview': { fr: 'Aperçu Discord', en: 'Discord Preview' },
   'embed.new': { fr: 'Nouveau', en: 'New' },
   'premium.custom': { fr: 'Sur mesure', en: 'Custom' },
+  'premium.testingMode': { fr: 'Mode Test Gratuit', en: 'Free Testing Mode' },
+  'premium.testingDesc': { fr: 'Pour le moment, toutes les fonctionnalités sont accessibles gratuitement pour les tests.', en: 'For now, all features are available for free during testing.' },
+  'premium.allUnlocked': { fr: 'Toutes les fonctionnalités débloquées', en: 'All Features Unlocked' },
+  'premium.allUnlockedDesc': { fr: 'Accédez à toutes les fonctionnalités Premium gratuitement pendant la phase de test.', en: 'Access all Premium features for free during the testing phase.' },
+  'premium.everythingFree': { fr: 'Tout est gratuit pour les tests', en: 'Everything is free for testing' },
 }
 
 interface I18nContextType {

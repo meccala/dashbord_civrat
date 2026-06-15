@@ -1,23 +1,39 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Bot, UserPlus, UserMinus, Save, RotateCcw, Eye } from 'lucide-react'
+import { Bot, UserPlus, UserMinus, Save, RotateCcw, Eye, CircleCheck as CheckCircle, CircleAlert as AlertCircle } from 'lucide-react'
 import { useI18n } from '../lib/i18n'
+import { useGuildConfig } from '../lib/useGuildConfig'
+
+interface WelcomeConfig {
+  enabled: boolean
+  welcomeChannel: string
+  goodbyeChannel: string
+  welcomeMessage: string
+  goodbyeMessage: string
+  dmWelcome: boolean
+  dmMessage: string
+}
+
+const defaultConfig: WelcomeConfig = {
+  enabled: true,
+  welcomeChannel: '',
+  goodbyeChannel: '',
+  welcomeMessage: 'Bienvenue sur le serveur, {user} !',
+  goodbyeMessage: '{user} a quitté le serveur.',
+  dmWelcome: false,
+  dmMessage: 'Bienvenue sur notre serveur Discord !',
+}
 
 export default function WelcomePage() {
   const { t } = useI18n()
-  const [config, setConfig] = useState({
-    enabled: true,
-    welcomeChannel: '',
-    goodbyeChannel: '',
-    welcomeMessage: 'Bienvenue sur le serveur, {user} !',
-    goodbyeMessage: '{user} a quitté le serveur.',
-    dmWelcome: false,
-    dmMessage: 'Bienvenue sur notre serveur Discord !',
-  })
-
-  const handleSave = () => {
-    // Save logic
-  }
+  const {
+    config,
+    setConfig,
+    saveConfig,
+    loading,
+    saving,
+    saveSuccess,
+    error
+  } = useGuildConfig<WelcomeConfig>('welcome_config', defaultConfig)
 
   return (
     <div className="space-y-6">
@@ -26,15 +42,38 @@ export default function WelcomePage() {
           <h1 className="text-3xl font-bold text-white mb-2">{t('welcome.title')}</h1>
           <p className="text-gray-400">{t('welcome.subtitle')}</p>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={handleSave}
-          className="btn-primary flex items-center gap-2"
-        >
-          <Save className="w-4 h-4" />
-          {t('common.save')}
-        </motion.button>
+        <div className="flex items-center gap-3">
+          {saveSuccess && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-2 text-neon-green text-sm"
+            >
+              <CheckCircle className="w-4 h-4" />
+              {t('common.savedSuccess')}
+            </motion.div>
+          )}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-2 text-red-400 text-sm"
+            >
+              <AlertCircle className="w-4 h-4" />
+              {error}
+            </motion.div>
+          )}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={saveConfig}
+            disabled={saving || loading}
+            className="btn-primary flex items-center gap-2 disabled:opacity-50"
+          >
+            <Save className="w-4 h-4" />
+            {saving ? t('common.saving') : t('common.save')}
+          </motion.button>
+        </div>
       </div>
 
       {/* Enable Toggle */}
@@ -195,7 +234,10 @@ export default function WelcomePage() {
 
       {/* Actions */}
       <div className="flex justify-end gap-4">
-        <button className="btn-secondary flex items-center gap-2">
+        <button
+          onClick={() => setConfig(defaultConfig)}
+          className="btn-secondary flex items-center gap-2"
+        >
           <RotateCcw className="w-4 h-4" />
           {t('common.reset')}
         </button>

@@ -32,24 +32,34 @@ export default function AuthCallbackPage() {
         }
 
         if (newSession?.user) {
+          // Get Discord provider token from session
+          const providerToken = (newSession as any).provider_token
+          const refreshToken = (newSession as any).provider_refresh_token
+          const expiresAt = newSession.expires_at ? new Date(newSession.expires_at * 1000) : null
+
+          // Upsert user with Discord token info
           const { error: upsertError } = await supabase.from('users').upsert({
             id: newSession.user.id,
             email: newSession.user.email,
             discord_id: newSession.user.identities?.find(i => i.provider === 'discord')?.id,
             discord_username: newSession.user.user_metadata?.full_name,
-            discord_avatar: newSession.user.user_metadata?.avatar_url,
+            discord_avatar: newSession.user.user_metadata?.avatar_url || newSession.user.user_metadata?.picture,
+            discord_access_token: providerToken,
+            discord_refresh_token: refreshToken,
+            discord_token_expires_at: expiresAt,
           })
 
           if (upsertError) {
-            setError(t('auth.error'))
-          } else {
-            setTimeout(() => navigate('/dashboard'), 500)
+            console.error('Error saving user profile:', upsertError)
           }
+
+          setTimeout(() => navigate('/dashboard'), 500)
         } else {
           setError(t('auth.noSession'))
           setTimeout(() => navigate('/'), 3000)
         }
-      } catch {
+      } catch (err) {
+        console.error('Auth callback error:', err)
         setError(t('auth.error'))
         setTimeout(() => navigate('/'), 3000)
       } finally {

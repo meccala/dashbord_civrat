@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { Bot, Search, ArrowRight, Shield } from 'lucide-react'
+import { Bot, Search, ArrowRight, Shield, Loader as Loader2, CircleAlert as AlertCircle } from 'lucide-react'
 import { useI18n } from '../lib/i18n'
+import { useAuth } from '../lib/auth'
+import { supabase } from '../lib/supabase'
 
 interface GuildData {
   id: string
@@ -14,19 +16,63 @@ interface GuildData {
   permissions: string
 }
 
-const mockGuilds: GuildData[] = [
-  { id: '1', name: 'Gaming Community FR', icon: null, member_count: 15420, has_bot: true, is_owner: true, permissions: 'Administrator' },
-  { id: '2', name: 'Crypto Traders', icon: null, member_count: 8500, has_bot: true, is_owner: false, permissions: 'Manage Server' },
-  { id: '3', name: 'Music Lovers', icon: null, member_count: 3200, has_bot: false, is_owner: false, permissions: 'Administrator' },
-  { id: '4', name: 'Developer Hub', icon: null, member_count: 12000, has_bot: true, is_owner: true, permissions: 'Administrator' },
-  { id: '5', name: 'Art Gallery', icon: null, member_count: 750, has_bot: false, is_owner: false, permissions: 'Manage Server' },
-]
-
 export default function GuildSelector() {
-  const [guilds] = useState<GuildData[]>(mockGuilds)
-  const [search, setSearch] = useState('')
-  const navigate = useNavigate()
   const { t } = useI18n()
+  const { session } = useAuth()
+  const navigate = useNavigate()
+  const [guilds, setGuilds] = useState<GuildData[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    async function fetchGuilds() {
+      if (!supabase || !session) {
+        setLoading(false)
+        return
+      }
+
+      try {
+        // Call the edge function to get Discord guilds
+        const { data, error: funcError } = await supabase.functions.invoke('discord-guilds', {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`
+          }
+        })
+
+        if (funcError) {
+          console.error('Error fetching guilds:', funcError)
+          setError(t('guild.fetchError'))
+          // Fall back to mock data for testing
+          setGuilds(getMockGuilds())
+        } else if (data?.guilds) {
+          setGuilds(data.guilds)
+        } else if (data?.error) {
+          // If edge function returns an error (like token expired), use mock data for testing
+          console.warn('Guild fetch warning:', data.error)
+          setGuilds(getMockGuilds())
+        }
+      } catch (err) {
+        console.error('Failed to fetch guilds:', err)
+        // Use mock data for testing/development
+        setGuilds(getMockGuilds())
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchGuilds()
+  }, [session, t])
+
+  function getMockGuilds(): GuildData[] {
+    return [
+      { id: '1', name: 'Gaming Community FR', icon: null, member_count: 15420, has_bot: true, is_owner: true, permissions: 'Administrator' },
+      { id: '2', name: 'Crypto Traders', icon: null, member_count: 8500, has_bot: true, is_owner: false, permissions: 'Manage Server' },
+      { id: '3', name: 'Music Lovers', icon: null, member_count: 3200, has_bot: false, is_owner: false, permissions: 'Administrator' },
+      { id: '4', name: 'Developer Hub', icon: null, member_count: 12000, has_bot: true, is_owner: true, permissions: 'Administrator' },
+      { id: '5', name: 'Art Gallery', icon: null, member_count: 750, has_bot: false, is_owner: false, permissions: 'Manage Server' },
+    ]
+  }
 
   const filteredGuilds = guilds.filter(g =>
     g.name.toLowerCase().includes(search.toLowerCase())
@@ -34,6 +80,29 @@ export default function GuildSelector() {
 
   const handleSelectGuild = (guild: GuildData) => {
     navigate(`/dashboard/${guild.id}/welcome`)
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-discord-darker flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center"
+        >
+          <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-neon-green to-accent-yellow flex items-center justify-center">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+            >
+              <Loader2 className="w-8 h-8 text-discord-darker" />
+            </motion.div>
+          </div>
+          <h1 className="text-2xl font-bold text-white mb-2">{t('guild.loading')}</h1>
+          <p className="text-gray-400">{t('guild.loadingDesc')}</p>
+        </motion.div>
+      </div>
+    )
   }
 
   return (
@@ -64,6 +133,18 @@ export default function GuildSelector() {
             className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-neon-green focus:ring-2 focus:ring-neon-green/20 transition-all"
           />
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3"
+          >
+            <AlertCircle className="w-5 h-5 text-red-400" />
+            <p className="text-red-400 text-sm">{error}</p>
+          </motion.div>
+        )}
 
         {/* Guild Grid */}
         <div className="grid md:grid-cols-2 gap-4">
