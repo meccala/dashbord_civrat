@@ -4,6 +4,7 @@ import { Database, Save, Download, RotateCcw, Trash2, Clock, HardDrive, Check } 
 import { useI18n } from '../lib/i18n'
 
 export default function BackupsPage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     frequency: 'weekly',
@@ -13,7 +14,6 @@ export default function BackupsPage() {
     includeChannels: true,
     includeSettings: true,
   })
-  const { t } = useI18n()
 
   const backups = [
     { id: '1', date: '2024-06-14 10:30', size: '2.4 MB', type: 'auto' },
@@ -100,12 +100,12 @@ export default function BackupsPage() {
             <div className="glass-card p-6">
               <div className="flex items-center gap-3 mb-4">
                 <HardDrive className="w-5 h-5 text-neon-green" />
-                <h3 className="text-lg font-semibold text-white">Rétention</h3>
+                <h3 className="text-lg font-semibold text-white">{t('common.retention')}</h3>
               </div>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Garder les sauvegardes pendant (jours)
+                    {t('common.keepBackupsFor')}
                   </label>
                   <input
                     type="number"
@@ -122,13 +122,13 @@ export default function BackupsPage() {
 
           {/* What to backup */}
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Contenu de la sauvegarde</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('common.backupContent')}</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { key: 'includeRoles', label: 'Rôles', desc: 'Rôles et permissions' },
-                { key: 'includeChannels', label: 'Salons', desc: 'Structure des salons' },
-                { key: 'includeSettings', label: 'Paramètres', desc: 'Configuration du bot' },
-                { key: 'includeMessages', label: 'Messages', desc: 'Messages récents (Premium)' },
+                { key: 'includeRoles', label: t('common.roles'), desc: t('welcome.rolesDesc') },
+                { key: 'includeChannels', label: t('common.channels'), desc: t('tempVoice.channelDesc') },
+                { key: 'includeSettings', label: t('settings.title'), desc: t('settings.subtitle') },
+                { key: 'includeMessages', label: t('common.messages'), desc: 'Premium' },
               ].map((item) => (
                 <button
                   key={item.key}
@@ -156,11 +156,11 @@ export default function BackupsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-white">{t('backups.create')}</h3>
-                <p className="text-sm text-gray-400">Créer une sauvegarde manuelle maintenant</p>
+                <p className="text-sm text-gray-400">{t('common.createManualBackup')}</p>
               </div>
               <button className="btn-primary flex items-center gap-2">
                 <Download className="w-4 h-4" />
-                Sauvegarder
+                {t('common.backupNow')}
               </button>
             </div>
           </div>
@@ -183,7 +183,7 @@ export default function BackupsPage() {
                       <span className={`text-xs px-2 py-0.5 rounded-full ${
                         backup.type === 'manual' ? 'bg-accent-yellow/20 text-accent-yellow' : 'bg-white/10 text-gray-400'
                       }`}>
-                        {backup.type === 'manual' ? 'Manuel' : 'Auto'}
+                        {backup.type === 'manual' ? t('common.manual') : t('common.auto')}
                       </span>
                     </div>
                     <div className="text-sm text-gray-400">{t('backups.size')}: {backup.size}</div>

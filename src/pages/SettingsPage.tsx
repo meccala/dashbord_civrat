@@ -71,7 +71,7 @@ export default function SettingsPage() {
           <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
             <div>
               <h4 className="font-medium text-white">{t('settings.timezone')}</h4>
-              <p className="text-sm text-gray-400">Fuseau horaire pour les logs et statistiques</p>
+              <p className="text-sm text-gray-400">{t('common.timezones.forLogsAndStats')}</p>
             </div>
             <select
               value={config.timezone}
@@ -163,23 +163,23 @@ export default function SettingsPage() {
       <div className="glass-card p-6">
         <div className="flex items-center gap-3 mb-4">
           <Shield className="w-5 h-5 text-neon-green" />
-          <h3 className="text-lg font-semibold text-white">Informations du Serveur</h3>
+          <h3 className="text-lg font-semibold text-white">{t('common.serverInfo')}</h3>
         </div>
         <div className="grid md:grid-cols-2 gap-4 text-sm">
           <div className="p-3 bg-white/5 rounded-lg">
-            <span className="text-gray-400">ID du Serveur:</span>
+            <span className="text-gray-400">{t('common.serverId')}:</span>
             <span className="text-white ml-2 font-mono">123456789012345678</span>
           </div>
           <div className="p-3 bg-white/5 rounded-lg">
-            <span className="text-gray-400">Bot rejoint:</span>
+            <span className="text-gray-400">{t('common.botJoined')}:</span>
             <span className="text-white ml-2">14 juin 2024</span>
           </div>
           <div className="p-3 bg-white/5 rounded-lg">
-            <span className="text-gray-400">Fonctionnalités:</span>
-            <span className="text-neon-green ml-2">15 activées</span>
+            <span className="text-gray-400">{t('common.features')}:</span>
+            <span className="text-neon-green ml-2">15 {t('languages.enabled').toLowerCase()}</span>
           </div>
           <div className="p-3 bg-white/5 rounded-lg">
-            <span className="text-gray-400">Dernière sauvegarde:</span>
+            <span className="text-gray-400">{t('common.lastBackup')}:</span>
             <span className="text-white ml-2">14 juin 2024 10:30</span>
           </div>
         </div>
@@ -189,10 +189,10 @@ export default function SettingsPage() {
       <div className="glass-card p-6 border-accent-yellow/20">
         <div className="flex items-center gap-3 mb-4">
           <Headphones className="w-5 h-5 text-accent-yellow" />
-          <h3 className="text-lg font-semibold text-white">Besoin d'aide ?</h3>
+          <h3 className="text-lg font-semibold text-white">{t('common.needHelp')}</h3>
         </div>
         <p className="text-gray-400 mb-4">
-          Rejoignez notre serveur Discord pour obtenir de l'aide, signaler des bugs ou suggérer des améliorations.
+          {t('common.supportServerDesc')}
         </p>
         <div className="flex flex-wrap gap-3">
           <a
@@ -202,7 +202,7 @@ export default function SettingsPage() {
             className="btn-accent inline-flex items-center gap-2"
           >
             <Headphones className="w-4 h-4" />
-            Rejoindre le Serveur Support
+            {t('common.supportServer')}
           </a>
           <a
             href={BOT_INVITE_URL}
@@ -211,7 +211,7 @@ export default function SettingsPage() {
             className="btn-primary inline-flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
-            Ajouter le Bot
+            {t('common.addBot')}
           </a>
         </div>
       </div>

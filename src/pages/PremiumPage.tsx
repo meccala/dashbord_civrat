@@ -4,8 +4,8 @@ import { Crown, Check, Zap, Globe, BarChart3, Code, Shield, Headphones, Star } f
 import { useI18n } from '../lib/i18n'
 
 export default function PremiumPage() {
-  const [billingPeriod, setBillingPeriod] = useState('monthly')
   const { t } = useI18n()
+  const [billingPeriod, setBillingPeriod] = useState('monthly')
 
   const plans = [
     {
@@ -78,7 +78,7 @@ export default function PremiumPage() {
               billingPeriod === 'monthly' ? 'bg-neon-green text-discord-darker font-medium' : 'text-gray-400'
             }`}
           >
-            Mensuel
+            {t('premium.monthly')}
           </button>
           <button
             onClick={() => setBillingPeriod('yearly')}
@@ -86,7 +86,7 @@ export default function PremiumPage() {
               billingPeriod === 'yearly' ? 'bg-neon-green text-discord-darker font-medium' : 'text-gray-400'
             }`}
           >
-            Annuel
+            {t('premium.yearly')}
             <span className="text-xs bg-accent-yellow/20 text-accent-yellow px-1.5 py-0.5 rounded">-30%</span>
           </button>
         </div>
@@ -104,7 +104,7 @@ export default function PremiumPage() {
           >
             {plan.popular && (
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-neon-green text-discord-darker text-sm font-bold rounded-full">
-                Populaire
+                {t('common.popular')}
               </div>
             )}
             <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
@@ -115,7 +115,7 @@ export default function PremiumPage() {
                   <span className="text-lg text-gray-500">/{billingPeriod === 'monthly' ? t('premium.price').replace('/', '') : 'an'}</span>
                 </>
               ) : (
-                'Sur mesure'
+                t('premium.custom')
               )}
             </div>
             <ul className="space-y-3 mb-8">
@@ -128,7 +128,7 @@ export default function PremiumPage() {
             </ul>
             {plan.current ? (
               <button className="w-full btn-secondary" disabled>
-                Plan actuel
+                {t('common.currentPlan')}
               </button>
             ) : plan.popular ? (
               <button className="w-full btn-primary flex items-center justify-center gap-2">
@@ -137,7 +137,7 @@ export default function PremiumPage() {
               </button>
             ) : (
               <button className="w-full btn-accent">
-                Nous contacter
+                {t('common.contact')}
               </button>
             )}
           </motion.div>
@@ -168,7 +168,7 @@ export default function PremiumPage() {
 
       {/* Testimonials */}
       <div className="mt-16 max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold text-white text-center mb-8">Ce que disent nos utilisateurs Premium</h2>
+        <h2 className="text-2xl font-bold text-white text-center mb-8">{t('premium.testimonials')}</h2>
         <div className="glass-card p-8">
           <div className="flex gap-1 mb-4">
             {[...Array(5)].map((_, i) => (
@@ -192,7 +192,7 @@ export default function PremiumPage() {
 
       {/* FAQ */}
       <div className="mt-16 max-w-3xl mx-auto">
-        <h2 className="text-2xl font-bold text-white text-center mb-8">Questions Fréquentes</h2>
+        <h2 className="text-2xl font-bold text-white text-center mb-8">{t('premium.faq')}</h2>
         <div className="space-y-4">
           {[
             { q: 'Puis-je annuler à tout moment ?', a: 'Oui, vous pouvez annuler votre abonnement à tout moment depuis vos paramètres.' },

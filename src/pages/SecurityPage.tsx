@@ -4,6 +4,7 @@ import { ShieldAlert, Save, TriangleAlert as AlertTriangle, UserX, Shield } from
 import { useI18n } from '../lib/i18n'
 
 export default function SecurityPage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     logChannel: '',
@@ -15,7 +16,6 @@ export default function SecurityPage() {
     quarantineRole: '',
     alertRole: '',
   })
-  const { t } = useI18n()
 
   return (
     <div className="space-y-6">
@@ -164,12 +164,12 @@ export default function SecurityPage() {
           <div className="glass-card p-6">
             <div className="flex items-center gap-3 mb-6">
               <Shield className="w-5 h-5 text-neon-green" />
-              <h3 className="text-lg font-semibold text-white">Paramètres de Quarantaine</h3>
+              <h3 className="text-lg font-semibold text-white">{t('common.quarantineSettings')}</h3>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Rôle Quarantaine
+                  {t('security.quarantineRole')}
                 </label>
                 <select
                   value={config.quarantineRole}
@@ -182,7 +182,7 @@ export default function SecurityPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Rôle Alerte
+                  {t('security.alertRole')}
                 </label>
                 <select
                   value={config.alertRole}

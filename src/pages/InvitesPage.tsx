@@ -4,6 +4,7 @@ import { Link2, Save, TrendingUp, Crown, Medal, RefreshCw } from 'lucide-react'
 import { useI18n } from '../lib/i18n'
 
 export default function InvitesPage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     joinMessage: 'Bienvenue {user} ! Tu as été invité par {inviter} ({invites} invitations)',
@@ -11,7 +12,6 @@ export default function InvitesPage() {
     trackFake: true,
     trackLeaves: true,
   })
-  const { t } = useI18n()
 
   const leaderboard = [
     { rank: 1, name: 'Admin', invites: 156, valid: 145, fake: 11 },
@@ -72,7 +72,7 @@ export default function InvitesPage() {
             <h3 className="text-lg font-semibold text-white mb-4">{t('invites.joinMessage')}</h3>
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Message d'arrivée avec invitation
+                {t('invites.joinMessageDesc')}
               </label>
               <textarea
                 value={config.joinMessage}
@@ -92,7 +92,7 @@ export default function InvitesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-medium text-white">{t('invites.trackFake')}</h4>
-                  <p className="text-sm text-gray-400">Détecter les fausses invitations</p>
+                  <p className="text-sm text-gray-400">{t('invites.trackFakeDesc')}</p>
                 </div>
                 <button
                   onClick={() => setConfig({ ...config, trackFake: !config.trackFake })}
@@ -113,7 +113,7 @@ export default function InvitesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-medium text-white">{t('invites.trackLeaves')}</h4>
-                  <p className="text-sm text-gray-400">Suivre les départs</p>
+                  <p className="text-sm text-gray-400">{t('invites.trackLeavesDesc')}</p>
                 </div>
                 <button
                   onClick={() => setConfig({ ...config, trackLeaves: !config.trackLeaves })}
@@ -140,7 +140,7 @@ export default function InvitesPage() {
               </div>
               <button className="btn-secondary flex items-center gap-2 text-sm">
                 <RefreshCw className="w-4 h-4" />
-                Actualiser
+                {t('common.refresh')}
               </button>
             </div>
 

@@ -4,6 +4,7 @@ import { Code, Save, Plus, Trash2, Eye, Copy, Send, Image, Clock } from 'lucide-
 import { useI18n } from '../lib/i18n'
 
 export default function EmbedBuilderPage() {
+  const { t } = useI18n()
   const [embed, setEmbed] = useState({
     title: 'Titre de l\'Embed',
     description: 'Description de l\'embed. Vous pouvez utiliser **gras**, *italique*, et des [liens](https://example.com).',
@@ -16,7 +17,6 @@ export default function EmbedBuilderPage() {
     authorUrl: '',
   })
   const [previewMode, setPreviewMode] = useState(false)
-  const { t } = useI18n()
 
   const savedEmbeds = [
     { id: '1', name: 'Bienvenue', title: 'Bienvenue sur le serveur !' },
@@ -54,7 +54,7 @@ export default function EmbedBuilderPage() {
         {/* Editor */}
         <div className="space-y-6">
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Contenu</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('embed.content')}</h3>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">{t('embed.titleField')}</label>
@@ -109,7 +109,7 @@ export default function EmbedBuilderPage() {
           </div>
 
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Média</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('embed.media')}</h3>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -169,7 +169,7 @@ export default function EmbedBuilderPage() {
             <h3 className="text-lg font-semibold text-white mb-4">{t('embed.sendTo')}</h3>
             <div className="flex gap-3">
               <select className="input-field flex-1">
-                <option value="">Sélectionner un salon</option>
+                <option value="">{t('common.selectChannel')}</option>
                 <option value="general">💬 general</option>
                 <option value="announcements">📢 announcements</option>
               </select>
@@ -184,7 +184,7 @@ export default function EmbedBuilderPage() {
         {/* Preview */}
         <div className="space-y-6">
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Aperçu Discord</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('embed.preview')}</h3>
             <div className="bg-[#36393f] rounded-lg p-4">
               {/* Discord Embed Preview */}
               <div className="border-l-4 rounded bg-[#2f3136] p-4" style={{ borderColor: embed.color }}>
@@ -211,7 +211,7 @@ export default function EmbedBuilderPage() {
               <h3 className="text-lg font-semibold text-white">{t('embed.saved')}</h3>
               <button className="btn-secondary flex items-center gap-2 text-sm">
                 <Plus className="w-4 h-4" />
-                Nouveau
+                {t('embed.new')}
               </button>
             </div>
             <div className="space-y-2">

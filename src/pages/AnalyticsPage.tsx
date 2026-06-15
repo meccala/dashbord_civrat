@@ -4,8 +4,8 @@ import { TrendingUp, TrendingDown, Users, MessageSquare } from 'lucide-react'
 import { useI18n } from '../lib/i18n'
 
 export default function AnalyticsPage() {
-  const [timeRange, setTimeRange] = useState('week')
   const { t } = useI18n()
+  const [timeRange, setTimeRange] = useState('week')
 
   const stats = [
     { label: t('analytics.members'), value: '15,420', change: '+124', positive: true, icon: Users },
@@ -85,11 +85,11 @@ export default function AnalyticsPage() {
           <div className="flex items-center gap-4 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-neon-green" />
-              <span className="text-gray-400">Messages</span>
+              <span className="text-gray-400">{t('analytics.messages')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-accent-yellow" />
-              <span className="text-gray-400">Membres</span>
+              <span className="text-gray-400">{t('analytics.members')}</span>
             </div>
           </div>
         </div>
@@ -128,8 +128,8 @@ export default function AnalyticsPage() {
             {[
               { label: t('analytics.peakOnline'), value: '1,234' },
               { label: t('analytics.avgOnline'), value: '456' },
-              { label: 'Messages par jour', value: '12,786' },
-              { label: 'Temps vocal moyen', value: '45 min' },
+              { label: t('common.messagesPerDay'), value: '12,786' },
+              { label: t('analytics.avgVoiceTime'), value: '45 min' },
             ].map((item, index) => (
               <div key={index} className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
                 <span className="text-gray-400">{item.label}</span>
@@ -140,7 +140,7 @@ export default function AnalyticsPage() {
         </div>
 
         <div className="glass-card p-6">
-          <h3 className="text-lg font-semibold text-white mb-6">Top Salons</h3>
+          <h3 className="text-lg font-semibold text-white mb-6">{t('common.topChannels')}</h3>
           <div className="space-y-3">
             {[
               { name: '💬 general', messages: 45678 },
@@ -154,7 +154,7 @@ export default function AnalyticsPage() {
                 </div>
                 <div className="flex-1">
                   <div className="font-medium text-white truncate">{channel.name}</div>
-                  <div className="text-xs text-gray-500">{channel.messages.toLocaleString()} messages</div>
+                  <div className="text-xs text-gray-500">{channel.messages.toLocaleString()} {t('common.messages').toLowerCase()}</div>
                 </div>
                 <div className="w-24 h-2 bg-white/10 rounded-full overflow-hidden">
                   <motion.div

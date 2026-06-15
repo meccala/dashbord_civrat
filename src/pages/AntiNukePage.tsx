@@ -4,6 +4,7 @@ import { UserPlus, Save, Shield, Trash2, Ban, UserX, Webhook, Smile, CircleAlert
 import { useI18n } from '../lib/i18n'
 
 export default function AntiNukePage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     logChannel: '',
@@ -18,7 +19,6 @@ export default function AntiNukePage() {
     },
     trustedAdmins: ['user1', 'user2'],
   })
-  const { t } = useI18n()
 
   const actions = [
     { key: 'channelDelete', icon: Trash2, label: t('antiNuke.channelDelete') },
@@ -137,7 +137,7 @@ export default function AntiNukePage() {
           <div className="glass-card p-6">
             <h3 className="text-lg font-semibold text-white mb-2">{t('antiNuke.trustedAdmins')}</h3>
             <p className="text-sm text-gray-400 mb-4">{t('antiNuke.trustedDesc')}</p>
-            <button className="btn-secondary">+ Ajouter un Admin de Confiance</button>
+            <button className="btn-secondary">{t('common.addTrustedAdmin')}</button>
           </div>
         </motion.div>
       )}

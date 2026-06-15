@@ -133,10 +133,9 @@ export default function GuildSelector() {
               <Shield className="w-5 h-5 text-neon-green" />
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-1">Serveurs administrateurs uniquement</h4>
+              <h4 className="font-semibold text-white mb-1">{t('guild.adminOnly')}</h4>
               <p className="text-sm text-gray-400">
-                Seuls les serveurs où vous avez les permissions "Administrateur" ou "Gérer le serveur" sont affichés.
-                Si un serveur manque, vérifiez vos permissions sur Discord.
+                {t('guild.adminOnlyDesc')}
               </p>
             </div>
           </div>

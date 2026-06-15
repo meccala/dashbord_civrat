@@ -4,6 +4,7 @@ import { Volume2, Save } from 'lucide-react'
 import { useI18n } from '../lib/i18n'
 
 export default function TempVoicePage() {
+  const { t } = useI18n()
   const [config, setConfig] = useState({
     enabled: true,
     category: '',
@@ -13,7 +14,6 @@ export default function TempVoicePage() {
     autoLock: false,
     autoBitrate: true,
   })
-  const { t } = useI18n()
 
   return (
     <div className="space-y-6">
@@ -94,7 +94,7 @@ export default function TempVoicePage() {
 
           {/* Name & Options */}
           <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold text-white mb-6">Options du Salon</h3>
+            <h3 className="text-lg font-semibold text-white mb-6">{t('common.voiceOptions')}</h3>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -127,8 +127,8 @@ export default function TempVoicePage() {
             <div className="mt-6 grid md:grid-cols-2 gap-4">
               <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
                 <div>
-                  <h4 className="font-medium text-white">Auto-verrouillage</h4>
-                  <p className="text-sm text-gray-400">Verrouiller automatiquement le salon</p>
+                  <h4 className="font-medium text-white">{t('common.autoLock')}</h4>
+                  <p className="text-sm text-gray-400">{t('tempVoice.autoLockDesc')}</p>
                 </div>
                 <button
                   onClick={() => setConfig({ ...config, autoLock: !config.autoLock })}
@@ -146,8 +146,8 @@ export default function TempVoicePage() {
 
               <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
                 <div>
-                  <h4 className="font-medium text-white">Auto-bitrate</h4>
-                  <p className="text-sm text-gray-400">Ajuster le bitrate selon le jeu</p>
+                  <h4 className="font-medium text-white">{t('common.autoBitrate')}</h4>
+                  <p className="text-sm text-gray-400">{t('tempVoice.autoBitrateDesc')}</p>
                 </div>
                 <button
                   onClick={() => setConfig({ ...config, autoBitrate: !config.autoBitrate })}
