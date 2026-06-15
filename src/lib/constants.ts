@@ -9,7 +9,7 @@ export const DISCORD_CLIENT_ID = '1478877109538652371'
 export const DISCORD_CLIENT_SECRET = '3F8rNh0PGFcy4UCD3LLSc--d73C3ZrBr'
 
 // Supabase Configuration
-export const SUPABASE_URL = 'https://zxlusbhdibwfilwqobbb.supabase.co'
+export const SUPABASE_URL = 'https://kgmudiwymfwfmshapqtv.supabase.co'
 export const SUPABASE_REDIRECT_URL = `${SUPABASE_URL}/auth/v1/callback`
 
 // Discord API endpoints
